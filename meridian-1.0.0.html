@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Afterpath Design System - Meridian 1.0.0</title>
+  <meta name="description" content="Afterpath Design System Meridian 1.0.0 - global tokens, patterns, and component reference.">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300&family=DM+Mono:wght@400;500&family=Caveat:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      font-family: 'DM Sans', system-ui, sans-serif;
+      color: #fff;
+      min-height: 100vh;
+      background: radial-gradient(ellipse at 20% 10%, #1a1a2e 0%, #0f0f1a 35%, #08080f 100%);
+      -webkit-font-smoothing: antialiased;
+    }
+    h1, h2, h3, p { margin: 0; }
+    a { color: #307fbb; text-decoration: none; border-bottom: 1px solid rgba(48,127,187,0.3); }
+    a:hover { border-bottom-color: rgba(48,127,187,0.6); }
+    button { font-family: inherit; }
+    .mono { font-family: 'DM Mono', monospace; }
+    .script { font-family: 'Caveat', cursive; }
+    .container { max-width: 1040px; margin: 0 auto; }
+    .header { padding: 48px 40px 0; }
+    .content { padding: 40px 40px 64px; }
+    .row { display: flex; align-items: center; gap: 16px; }
+
+    /* Tabs */
+    .tabs { display: flex; gap: 4px; margin-top: 24px; border-bottom: 1px solid rgba(255,255,255,0.06); overflow-x: auto; }
+    .tab-btn { background: none; border: none; cursor: pointer; font-size: 13px; font-weight: 400; padding: 8px 16px; color: rgba(255,255,255,0.35); border-bottom: 2px solid transparent; transition: color 0.2s, border-color 0.2s; margin-bottom: -1px; white-space: nowrap; }
+    .tab-btn.active { font-weight: 600; color: #fff; border-bottom-color: rgba(255,255,255,0.6); }
+    .tab-btn:hover:not(.active) { color: rgba(255,255,255,0.6); }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* Section */
+    .section { margin-bottom: 48px; }
+    .section-head { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
+    .section-title { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.25); }
+
+    /* Maturity pill */
+    .maturity { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 9px; font-weight: 700; font-family: 'DM Mono', monospace; letter-spacing: 0.08em; }
+    .maturity-locked { background: rgba(9,179,143,0.15); color: #09b38f; }
+    .maturity-draft { background: rgba(209,143,67,0.15); color: #d18f43; }
+    .maturity-open { background: rgba(155,42,124,0.15); color: #9b2a7c; }
+
+    /* Cards */
+    .hover-card { padding: 16px 18px; background: rgba(255,255,255,0.02); border-radius: 10px; border: 1px solid rgba(255,255,255,0.04); transition: background 0.2s, border-color 0.2s; cursor: default; }
+    .hover-card:hover { background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.1); }
+    .flat-card { padding: 16px 18px; background: rgba(255,255,255,0.02); border-radius: 10px; border: 1px solid rgba(255,255,255,0.04); }
+    .note-card { padding: 20px 24px; border-radius: 12px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); }
+
+    /* Open decision */
+    .open-decision { padding: 14px 18px; border-radius: 10px; margin-bottom: 12px; background: rgba(155,42,124,0.05); border: 1px solid rgba(155,42,124,0.15); }
+    .open-decision-head { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+    .open-decision-question { font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.55); }
+    .open-decision-context { font-size: 11px; color: rgba(255,255,255,0.35); line-height: 1.6; }
+
+    /* Dual preview */
+    .dual { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border-radius: 14px; overflow: hidden; border: 1px solid rgba(255,255,255,0.06); }
+    .dual-dark { padding: 24px 20px; background: linear-gradient(135deg, #0d0d14, #1a1a2e 50%, #12121e); }
+    .dual-light { padding: 24px 20px; background: linear-gradient(135deg, #FAFAF8, #F3F0F8 50%, #EEEAED); border-left: 1px solid rgba(255,255,255,0.06); }
+    .dual-label { font-size: 9px; font-family: 'DM Mono', monospace; margin-bottom: 12px; }
+    .dual-label-dark { color: rgba(255,255,255,0.35); }
+    .dual-label-light { color: rgba(0,0,0,0.4); }
+
+    /* Grids */
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+
+    /* Logo element */
+    .ap-logo { position: relative; display: inline-flex; align-items: center; justify-content: center; }
+    .ap-logo-glow { position: absolute; inset: -2px; border-radius: 50%; border: none; }
+    .ap-logo-svg { position: relative; z-index: 1; }
+
+    /* Swatches */
+    .swatch { text-align: center; }
+    .swatch-chip { border-radius: 4px; flex-shrink: 0; margin: 0 auto; border: 1px solid rgba(255,255,255,0.06); }
+    .swatch-label { font-size: 9px; font-family: 'DM Mono', monospace; color: rgba(255,255,255,0.35); margin-top: 4px; }
+
+    /* Scrollbar (dark theme) */
+    ::-webkit-scrollbar { width: 10px; height: 10px; }
+    ::-webkit-scrollbar-track { background: rgba(255,255,255,0.02); }
+    ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 5px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
+
+    @media (max-width: 760px) {
+      .grid-2, .grid-3 { grid-template-columns: 1fr; }
+      .dual { grid-template-columns: 1fr; }
+      .dual-light { border-left: none; border-top: 1px solid rgba(255,255,255,0.06); }
+      .header, .content { padding-left: 20px; padding-right: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <div class="row" style="margin-bottom:6px;">
+        <div class="ap-logo" data-size="48" data-mode="dark" data-speed="7" data-glow="0.35"></div>
+        <div>
+          <h1 style="font-size:26px;font-weight:700;letter-spacing:-0.03em;">Afterpath Design System</h1>
+          <p style="margin-top:2px;font-size:13px;color:rgba(255,255,255,0.4);font-weight:400;">Meridian 1.0.0 - Global Tokens, Patterns &amp; Component Reference</p>
+        </div>
+      </div>
+      <nav class="tabs" role="tablist" aria-label="Design system sections">
+        <button class="tab-btn active" role="tab" data-tab="howto" aria-selected="true">How This Works</button>
+        <button class="tab-btn" role="tab" data-tab="foundation" aria-selected="false">Foundation</button>
+        <button class="tab-btn" role="tab" data-tab="surfaces" aria-selected="false">Surfaces &amp; Motion</button>
+        <button class="tab-btn" role="tab" data-tab="components" aria-selected="false">Components</button>
+        <button class="tab-btn" role="tab" data-tab="applications" aria-selected="false">Applications</button>
+        <button class="tab-btn" role="tab" data-tab="governance" aria-selected="false">Governance</button>
+      </nav>
+    </header>
+
+    <main class="content">
+
+      <!-- ============ HOW THIS WORKS ============ -->
+      <section class="tab-panel active" data-panel="howto" role="tabpanel">
+        <div class="section">
+          <div class="section-head"><span class="section-title">What This Guide Is</span></div>
+          <div class="note-card">
+            <p style="font-size:14px;color:rgba(255,255,255,0.7);line-height:1.8;">This is Afterpath's living design system - the single reference for tokens, patterns, and component decisions across every product surface. It's not a static PDF. It evolves as we ship, with every entry tagged by maturity so you know what's decided and what's still open.</p>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-head"><span class="section-title">Maturity Model</span></div>
+          <div class="grid-3">
+            <div class="hover-card">
+              <span class="maturity maturity-locked">LOCKED</span>
+              <div style="font-size:13px;font-weight:600;color:rgba(255,255,255,0.7);margin:8px 0 6px;">Decided. Use as-is.</div>
+              <div style="font-size:12px;color:rgba(255,255,255,0.45);line-height:1.6;">Final tokens and patterns. No modification without a dedicated design session. Don't fork silently.</div>
+            </div>
+            <div class="hover-card">
+              <span class="maturity maturity-draft">DRAFT</span>
+              <div style="font-size:13px;font-weight:600;color:rgba(255,255,255,0.7);margin:8px 0 6px;">In use, open to revision.</div>
+              <div style="font-size:12px;color:rgba(255,255,255,0.45);line-height:1.6;">Exists in shipped artifacts but not formally locked. Use for consistency, but propose changes if needed. Track deviations.</div>
+            </div>
+            <div class="hover-card">
+              <span class="maturity maturity-open">OPEN</span>
+              <div style="font-size:13px;font-weight:600;color:rgba(255,255,255,0.7);margin:8px 0 6px;">Needs a design decision.</div>
+              <div style="font-size:12px;color:rgba(255,255,255,0.45);line-height:1.6;">Flagged gaps. Don't ad-hoc in a feature build. Bring to a design session with context. Each OPEN item includes discussion context.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-head"><span class="section-title">Where We're Headed</span></div>
+          <div>
+            <div style="display:flex;gap:16px;padding:14px 0;border-bottom:1px solid rgba(255,255,255,0.04);">
+              <div style="width:64px;flex-shrink:0;text-align:right;"><span class="mono" style="font-size:10px;font-weight:700;color:#09b38f;">NOW</span></div>
+              <div style="width:12px;display:flex;flex-direction:column;align-items:center;flex-shrink:0;"><div style="width:8px;height:8px;border-radius:50%;background:#09b38f;"></div><div style="width:1px;flex:1;background:rgba(255,255,255,0.06);"></div></div>
+              <div>
+                <div style="font-size:13px;font-weight:600;color:rgba(255,255,255,0.8);">Living Reference</div>
+                <div style="font-size:12px;color:rgba(255,255,255,0.45);margin-top:4px;line-height:1.6;">This artifact. Tokens, examples, maturity tags, OPEN decisions. Seed for design conversations.</div>
+              </div>
+            </div>
+            <div style="display:flex;gap:16px;padding:14px 0;border-bottom:1px solid rgba(255,255,255,0.04);">
+              <div style="width:64px;flex-shrink:0;text-align:right;"><span class="mono" style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.35);">NEXT</span></div>
+              <div style="width:12px;display:flex;flex-direction:column;align-items:center;flex-shrink:0;"><div style="width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.15);"></div><div style="width:1px;flex:1;background:rgba(255,255,255,0.06);"></div></div>
+              <div>
+                <div style="font-size:13px;font-weight:600;color:rgba(255,255,255,0.55);">Token Export</div>
+                <div style="font-size:12px;color:rgba(255,255,255,0.45);margin-top:4px;line-height:1.6;">Extract locked tokens into CSS custom properties or Tailwind config. Machine-readable, importable across codebases.</div>
+              </div>
+            </div>
+            <div style="display:flex;gap:16px;padding:14px 0;border-bottom:1px solid rgba(255,255,255,0.04);">
+              <div style="width:64px;flex-shrink:0;text-align:right;"><span class="mono" style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.35);">THEN</span></div>
+              <div style="width:12px;display:flex;flex-direction:column;align-items:center;flex-shrink:0;"><div style="width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.15);"></div><div style="width:1px;flex:1;background:rgba(255,255,255,0.06);"></div></div>
+              <div>
+                <div style="font-size:13px;font-weight:600;color:rgba(255,255,255,0.55);">Component Library</div>
+                <div style="font-size:12px;color:rgba(255,255,255,0.45);margin-top:4px;line-height:1.6;">Each component documented with variants, states, props. DRAFT items formalized and promoted to LOCKED.</div>
+              </div>
+            </div>
+            <div style="display:flex;gap:16px;padding:14px 0;">
+              <div style="width:64px;flex-shrink:0;text-align:right;"><span class="mono" style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.35);">EVENTUALLY</span></div>
+              <div style="width:12px;display:flex;flex-direction:column;align-items:center;flex-shrink:0;"><div style="width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.15);"></div></div>
+              <div>
+                <div style="font-size:13px;font-weight:600;color:rgba(255,255,255,0.55);">Afterpath "Storybook"</div>
+                <div style="font-size:12px;color:rgba(255,255,255,0.45);margin-top:4px;line-height:1.6;">A full interactive component documentation site - browseable, testable, linkable. The production source of truth. If you've never seen one, Storybook is an open-source tool for building and documenting UI components in isolation. <a href="https://storybook.js.org" target="_blank" rel="noopener noreferrer">storybook.js.org</a></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ FOUNDATION ============ -->
+      <section class="tab-panel" data-panel="foundation" role="tabpanel">
+
+        <div class="section">
+          <div class="section-head"><span class="section-title">Brand Context</span><span class="maturity maturity-locked">LOCKED</span></div>
+          <div class="grid-3">
+            <div class="hover-card">
+              <div class="mono" style="font-size:10px;color:rgba(255,255,255,0.35);margin-bottom:6px;">AUDIENCE</div>
+              <div style="font-size:13px;color:rgba(255,255,255,0.7);line-height:1.6;">Gen X (45-60). Family executors settling a parent's estate. CPAs managing multiple estates as third-party executors.</div>
+            </div>
+            <div class="hover-card">
+              <div class="mono" style="font-size:10px;color:rgba(255,255,255,0.35);margin-bottom:6px;">TONE</div>
+              <div style="font-size:13px;color:rgba(255,255,255,0.7);line-height:1.6;">Calm competence. Professional but not cold. Guides without patronizing. A trusted advisor's desk, not a government form.</div>
+            </div>
+            <div class="hover-card">
+              <div class="mono" style="font-size:10px;color:rgba(255,255,255,0.35);margin-bottom:6px;">MODES</div>
+              <div style="font-size:13px;color:rgba(255,255,255,0.7);line-height:1.6;">Dark mode for workspace power users (CPAs, returning executors). Light mode for onboarding and first-time B2C users. Both share the same token system.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-head"><span class="section-title">Typography</span><span class="maturity maturity-locked">LOCKED</span></div>
+          <div style="display:flex;flex-direction:column;gap:16px;">
+            <div class="hover-card" style="display:flex;gap:32px;align-items:flex-end;">
+              <div style="flex:1;">
+                <div class="mono" style="font-size:10px;color:rgba(255,255,255,0.35);margin-bottom:12px;">PRIMARY - DM SANS</div>
+                <div style="font-size:28px;font-weight:700;letter-spacing:-0.03em;color:rgba(255,255,255,0.85);margin-bottom:4px;">Welcome. Let's get started together.</div>
+                <div style="font-size:14px;color:rgba(255,255,255,0.55);line-height:1.6;">Body text, headings, navigation. Variable weight 300-700. Optical size 9-40.</div>
+              </div>
+              <div class="mono" style="font-size:11px;color:rgba(255,255,255,0.4);text-align:right;flex-shrink:0;">google fonts</div>
+            </div>
+            <div class="hover-card" style="display:flex;gap:32px;align-items:flex-end;">
+              <div style="flex:1;">
+                <div class="mono" style="font-size:10px;color:rgba(255,255,255,0.35);margin-bottom:12px;">SECONDARY - DM MONO</div>
+                <div class="mono" style="font-size:22px;font-weight:500;color:rgba(255,255,255,0.85);margin-bottom:4px;">$1,247,382.00 | 2026-E-00847</div>
+                <div style="font-size:14px;color:rgba(255,255,255,0.55);line-height:1.6;">Financial figures, form values, code, metadata labels, status badges, timestamps.</div>
+              </div>
+              <div class="mono" style="font-size:11px;color:rgba(255,255,255,0.4);text-align:right;flex-shrink:0;">google fonts</div>
+            </div>
+            <div class="hover-card" style="display:flex;gap:32px;align-items:flex-end;">
+              <div style="flex:1;">
+                <div class="mono" style="font-size:10px;color:rgba(255,255,255,0.35);margin-bottom:12px;">EMPATHETIC - CAVEAT</div>
+                <div class="script" style="font-size:28px;font-weight:500;color:rgba(107,91,138,0.8);margin-bottom:4px;">You're not alone</div>
+                <div style="font-size:14px;color:rgba(255,255,255,0.55);line-height:1.6;">Handwritten script for empathetic encouragement text in onboarding. Used sparingly. Never in workspace UI.</div>
+              </div>
+              <div class="mono" style="font-size:11px;color:rgba(255,255,255,0.4);text-align:right;flex-shrink:0;">google fonts</div>
+            </div>
+          </div>
+
+          <div style="margin-top:20px;">
+            <div class="mono" style="font-size:10px;color:rgba(255,255,255,0.35);margin-bottom:12px;">TYPE SCALE</div>
+            <div>
+              <div style="display:grid;grid-template-columns:120px 100px 1fr;gap:12px;align-items:baseline;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.03);"><span class="mono" style="font-size:11px;color:rgba(255,255,255,0.4);">display</span><span class="mono" style="font-size:10px;color:rgba(255,255,255,0.4);">28px / 700</span><span style="font-size:22px;font-weight:700;letter-spacing:-0.03em;color:rgba(255,255,255,0.7);">Welcome. Let's get started together.</span></div>
+              <div style="display:grid;grid-template-columns:120px 100px 1fr;gap:12px;align-items:baseline;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.03);"><span class="mono" style="font-size:11px;color:rgba(255,255,255,0.4);">heading-lg</span><span class="mono" style="font-size:10px;color:rgba(255,255,255,0.4);">18px / 700</span><span style="font-size:18px;font-weight:700;letter-spacing:-0.02em;color:rgba(255,255,255,0.7);">Asset Inventory</span></div>
+              <div style="display:grid;grid-template-columns:120px 100px 1fr;gap:12px;align-items:baseline;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.03);"><span class="mono" style="font-size:11px;color:rgba(255,255,255,0.4);">heading</span><span class="mono" style="font-size:10px;color:rgba(255,255,255,0.4);">14-15px / 600</span><span style="font-size:15px;font-weight:600;letter-spacing:-0.01em;color:rgba(255,255,255,0.7);">What best describes you?</span></div>
+              <div style="display:grid;grid-template-columns:120px 100px 1fr;gap:12px;align-items:baseline;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.03);"><span class="mono" style="font-size:11px;color:rgba(255,255,255,0.4);">body</span><span class="mono" style="font-size:10px;color:rgba(255,255,255,0.4);">13-15px / 400</span><span style="font-size:14px;font-weight:400;color:rgba(255,255,255,0.7);">Enter the fair market value at date of death.</span></div>
+              <div style="display:grid;grid-template-columns:120px 100px 1fr;gap:12px;align-items:baseline;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.03);"><span class="mono" style="font-size:11px;color:rgba(255,255,255,0.4);">caption</span><span class="mono" style="font-size:10px;color:rgba(255,255,255,0.4);">12-13px / 400</span><span style="font-size:12px;font-weight:400;color:rgba(255,255,255,0.7);">Last updated 2 hours ago</span></div>
+              <div style="display:grid;grid-template-columns:120px 100px 1fr;gap:12px;align-items:baseline;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.03);"><span class="mono" style="font-size:11px;color:rgba(255,255,255,0.4);">label</span><span class="mono" style="font-size:10px;color:rgba(255,255,255,0.4);">10-11px / 600</span><span class="mono" style="font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:rgba(255,255,255,0.7);">SECTION HEADER</span></div>
+              <div style="display:grid;grid-template-columns:120px 100px 1fr;gap:12px;align-items:baseline;padding:8px 0;"><span class="mono" style="font-size:11px;color:rgba(255,255,255,0.4);">encouragement</span><span class="mono" style="font-size:10px;color:rgba(255,255,255,0.4);">28px / 500</span><span class="script" style="font-size:22px;font-weight:500;color:rgba(107,91,138,0.8);">You're doing great</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-head"><span class="section-title">Color Palette</span><span class="maturity maturity-locked">LOCKED</span></div>
+
+          <div style="margin-bottom:24px;">
+            <div class="mono" style="font-size:10px;color:rgba(255,255,255,0.35);margin-bottom:12px;">DARK MODE BACKGROUNDS</div>
+            <div style="display:flex;gap:8px;">
+              <div style="flex:1;padding:16px 12px;border-radius:8px;background:#08080f;border:1px solid rgba(255,255,255,0.06);"><div class="mono" style="font-size:10px;color:rgba(255,255,255,0.5);">deepest</div><div class="mono" style="font-size:9px;color:rgba(255,255,255,0.35);margin-top:2px;">#08080f</div></div>
+              <div style="flex:1;padding:16px 12px;border-radius:8px;background:#0f0f1a;border:1px solid rgba(255,255,255,0.06);"><div class="mono" style="font-size:10px;color:rgba(255,255,255,0.5);">base</div><div class="mono" style="font-size:9px;color:rgba(255,255,255,0.35);margin-top:2px;">#0f0f1a</div></div>
+              <div style="flex:1;padding:16px 12px;border-radius:8px;background:#1a1a2e;border:1px solid rgba(255,255,255,0.06);"><div class="mono" style="font-size:10px;color:rgba(255,255,255,0.5);">elevated</div><div class="mono" style="font-size:9px;color:rgba(255,255,255,0.35);margin-top:2px;">#1a1a2e</div></div>
+              <div style="flex:1;padding:16px 12px;border-radius:8px;background:#12121e;border:1px solid rgba(255,255,255,0.06);"><div class="mono" style="font-size:10px;color:rgba(255,255,255,0.5);">mid</div><div class="mono" style="font-size:9px;color:rgba(255,255,255,0.35);margin-top:2px;">#12121e</div></div>
+            </div>
+            <div class="mono" style="margin-top:6px;font-size:10px;color:rgba(255,255,255,0.35);">radial-gradient(ellipse at 20% 10%, #1a1a2e 0%, #0f0f1a 35%, #08080f 100%)</div>
+          </div>
+
+          <div style="margin-bottom:24px;">
+            <div class="mono" style="font-size:10px;color:rgba(255,255,255,0.35);margin-bottom:12px;">LIGHT MODE BACKGROUNDS (ONBOARDING)</div>
+            <div style="display:flex;gap:8px;">
+              <div style="flex:1;padding:16px 12px;border-radius:8px;background:#FAFAF8;border:1px solid rgba(0,0,0,0.06);"><div class="mono" style="font-size:10px;color:rgba(0,0,0,0.6);">warmWhite</div><div class="mono" style="font-size:9px;color:rgba(0,0,0,0.4);margin-top:2px;">#FAFAF8</div></div>
+              <div style="flex:1;padding:16px 12px;border-radius:8px;background:#F8F6FA;border:1px solid rgba(0,0,0,0.06);"><div class="mono" style="font-size:10px;color:rgba(0,0,0,0.6);">gradStart</div><div class="mono" style="font-size:9px;color:rgba(0,0,0,0.4);margin-top:2px;">#F8F6FA</div></div>
+              <div style="flex:1;padding:16px 12px;border-radius:8px;background:#F0ECF2;border:1px solid rgba(0,0,0,0.06);"><div class="mono" style="font-size:10px;color:rgba(0,0,0,0.6);">gradMid</div><div class="mono" style="font-size:9px;color:rgba(0,0,0,0.4);margin-top:2px;">#F0ECF2</div></div>
+              <div style="flex:1;padding:16px 12px;border-radius:8px;background:#EEEAED;border:1px solid rgba(0,0,0,0.06);"><div class="mono" style="font-size:10px;color:rgba(0,0,0,0.6);">gradEnd</div><div class="mono" style="font-size:9px;color:rgba(0,0,0,0.4);margin-top:2px;">#EEEAED</div></div>
+              <div style="flex:1;padding:16px 12px;border-radius:8px;background:#F3F0F8;border:1px solid rgba(0,0,0,0.06);"><div class="mono" style="font-size:10px;color:rgba(0,0,0,0.6);">lightPurple</div><div class="mono" style="font-size:9px;color:rgba(0,0,0,0.4);margin-top:2px;">#F3F0F8</div></div>
+            </div>
+            <div class="mono" style="margin-top:6px;font-size:10px;color:rgba(255,255,255,0.35);">linear-gradient(165deg, #F8F6FA 0%, #F0ECF2 40%, #EEEAED 100%)</div>
+          </div>
+
+          <div style="margin-bottom:24px;">
+            <div class="mono" style="font-size:10px;color:rgba(255,255,255,0.35);margin-bottom:12px;">STAGE COLORS (FROM GRADIENT)</div>
+            <div class="grid-2">
+              <div class="hover-card" style="display:flex;align-items:center;gap:14px;">
+                <div style="display:flex;border-radius:6px;overflow:hidden;flex-shrink:0;"><div style="width:24px;height:24px;background:#e9753d;"></div><div style="width:24px;height:24px;background:#f15c3f;"></div><div style="width:24px;height:24px;background:#da3659;"></div></div>
+                <div style="font-size:12px;font-weight:600;color:rgba(255,255,255,0.7);">Aging Care</div>
+              </div>
+              <div class="hover-card" style="display:flex;align-items:center;gap:14px;">
+                <div style="display:flex;border-radius:6px;overflow:hidden;flex-shrink:0;"><div style="width:24px;height:24px;background:#9b2a7c;"></div><div style="width:24px;height:24px;background:#7a2c8a;"></div><div style="width:24px;height:24px;background:#553494;"></div></div>
+                <div style="font-size:12px;font-weight:600;color:rgba(255,255,255,0.7);">End-of-Life Planning</div>
+              </div>
+              <div class="hover-card" style="display:flex;align-items:center;gap:14px;">
+                <div style="display:flex;border-radius:6px;overflow:hidden;flex-shrink:0;"><div style="width:24px;height:24px;background:#4e469c;"></div><div style="width:24px;height:24px;background:#307fbb;"></div><div style="width:24px;height:24px;background:#1d99c8;"></div></div>
+                <div style="font-size:12px;font-weight:600;color:rgba(255,255,255,0.7);">Estate Settlement</div>
+              </div>
+              <div class="hover-card" style="display:flex;align-items:center;gap:14px;">
+                <div style="display:flex;border-radius:6px;overflow:hidden;flex-shrink:0;"><div style="width:24px;height:24px;background:#00b7bb;"></div><div style="width:24px;height:24px;background:#0eb279;"></div><div style="width:24px;height:24px;background:#7db056;"></div></div>
+                <div style="font-size:12px;font-weight:600;color:rgba(255,255,255,0.7);">Legacy Transition</div>
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-bottom:24px;">
+            <div class="mono" style="font-size:10px;color:rgba(255,255,255,0.35);margin-bottom:12px;">SEMANTIC COLORS (BOTH MODES)</div>
+            <div class="dual">
+              <div class="dual-dark">
+                <div class="dual-label dual-label-dark">DARK</div>
+                <div class="grid-2" style="gap:8px;">
+                  <div style="padding:10px 12px;border-radius:8px;background:rgba(9,179,143,0.15);border:1px solid rgba(9,179,143,0.3);"><div style="display:flex;align-items:center;gap:6px;"><div style="width:12px;height:12px;border-radius:2px;background:#09b38f;"></div><span style="font-size:11px;font-weight:600;color:#09b38f;">Success</span></div><div class="mono" style="font-size:9px;color:rgba(255,255,255,0.45);margin-top:4px;">bg: #09b38f15 / border: #09b38f30</div></div>
+                  <div style="padding:10px 12px;border-radius:8px;background:rgba(209,143,67,0.15);border:1px solid rgba(209,143,67,0.3);"><div style="display:flex;align-items:center;gap:6px;"><div style="width:12px;height:12px;border-radius:2px;background:#d18f43;"></div><span style="font-size:11px;font-weight:600;color:#d18f43;">Warning</span></div><div class="mono" style="font-size:9px;color:rgba(255,255,255,0.45);margin-top:4px;">bg: #d18f4315 / border: #d18f4330</div></div>
+                  <div style="padding:10px 12px;border-radius:8px;background:rgba(218,54,89,0.15);border:1px solid rgba(218,54,89,0.3);"><div style="display:flex;align-items:center;gap:6px;"><div style="width:12px;height:12px;border-radius:2px;background:#da3659;"></div><span style="font-size:11px;font-weight:600;color:#da3659;">Error</span></div><div class="mono" style="font-size:9px;color:rgba(255,255,255,0.45);margin-top:4px;">bg: #da365915 / border: #da365930</div></div>
+                  <div style="padding:10px 12px;border-radius:8px;background:rgba(48,127,187,0.15);border:1px solid rgba(48,127,187,0.3);"><div style="display:flex;align-items:center;gap:6px;"><div style="width:12px;height:12px;border-radius:2px;background:#307fbb;"></div><span style="font-size:11px;font-weight:600;color:#307fbb;">Info</span></div><div class="mono" style="font-size:9px;color:rgba(255,255,255,0.45);margin-top:4px;">bg: #307fbb15 / border: #307fbb30</div></div>
+                  <div style="padding:10px 12px;border-radius:8px;background:rgba(25,178,106,0.15);border:1px solid rgba(25,178,106,0.3);"><div style="display:flex;align-items:center;gap:6px;"><div style="width:12px;height:12px;border-radius:2px;background:#19b26a;"></div><span style="font-size:11px;font-weight:600;color:#19b26a;">Active</span></div><div class="mono" style="font-size:9px;color:rgba(255,255,255,0.45);margin-top:4px;">bg: #19b26a15 / border: #19b26a30</div></div>
+                </div>
+              </div>
+              <div class="dual-light">
+                <div class="dual-label dual-label-light">LIGHT</div>
+                <div class="grid-2" style="gap:8px;">
+                  <div style="padding:10px 12px;border-radius:8px;background:#F0FDF4;border:1px solid #BBF7D0;"><div style="display:flex;align-items:center;gap:6px;"><div style="width:12px;height:12px;border-radius:2px;background:#16A34A;border:1px solid #BBF7D0;"></div><span style="font-size:11px;font-weight:600;color:#16A34A;">Success</span></div><div class="mono" style="font-size:9px;color:rgba(0,0,0,0.55);margin-top:4px;">bg: #F0FDF4</div></div>
+                  <div style="padding:10px 12px;border-radius:8px;background:#FEF0E8;border:1px solid #FBCDB0;"><div style="display:flex;align-items:center;gap:6px;"><div style="width:12px;height:12px;border-radius:2px;background:#e9753d;border:1px solid #FBCDB0;"></div><span style="font-size:11px;font-weight:600;color:#e9753d;">Warning</span></div><div class="mono" style="font-size:9px;color:rgba(0,0,0,0.55);margin-top:4px;">bg: #FEF0E8</div></div>
+                  <div style="padding:10px 12px;border-radius:8px;background:#FFF1F2;border:1px solid #FECDD3;"><div style="display:flex;align-items:center;gap:6px;"><div style="width:12px;height:12px;border-radius:2px;background:#E11D48;border:1px solid #FECDD3;"></div><span style="font-size:11px;font-weight:600;color:#E11D48;">Error</span></div><div class="mono" style="font-size:9px;color:rgba(0,0,0,0.55);margin-top:4px;">bg: #FFF1F2</div></div>
+                  <div style="padding:10px 12px;border-radius:8px;background:#F3F0F8;border:1px solid #D8D0E8;"><div style="display:flex;align-items:center;gap:6px;"><div style="width:12px;height:12px;border-radius:2px;background:#2D1B4E;border:1px solid #D8D0E8;"></div><span style="font-size:11px;font-weight:600;color:#2D1B4E;">Info</span></div><div class="mono" style="font-size:9px;color:rgba(0,0,0,0.55);margin-top:4px;">bg: #F3F0F8</div></div>
+                  <div style="padding:10px 12px;border-radius:8px;background:#EDFCF3;border:1px solid #A7F3D0;"><div style="display:flex;align-items:center;gap:6px;"><div style="width:12px;height:12px;border-radius:2px;background:#15803d;border:1px solid #A7F3D0;"></div><span style="font-size:11px;font-weight:600;color:#15803d;">Active</span></div><div class="mono" style="font-size:9px;color:rgba(0,0,0,0.55);margin-top:4px;">bg: #EDFCF3</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div style="padding:10px 14px;border-radius:8px;background:rgba(9,179,143,0.06);border:1px solid rgba(9,179,143,0.15);margin-bottom:24px;">
+            <div class="mono" style="font-size:9px;font-weight:700;color:rgba(9,179,143,0.9);margin-bottom:4px;letter-spacing:0.06em;">SUCCESS / ACTIVE PAIRING CONSTRAINT</div>
+            <div style="font-size:11px;color:rgba(255,255,255,0.55);line-height:1.6;">Success (#09b38f, teal-green) is exclusively for completion states: task done, gate passed, verification confirmed. Active (#19b26a, leaf-green) is exclusively for in-progress states: active estate phase, current workflow step, healthy forward motion. Active is never used for completion. Success is never used for in-progress. No exceptions.</div>
+          </div>
+
+          <div>
+            <div class="mono" style="font-size:10px;color:rgba(255,255,255,0.35);margin-bottom:12px;">BRAND PURPLE FAMILY (CROSS-MODE)</div>
+            <div style="display:flex;gap:8px;">
+              <div style="flex:1;text-align:center;"><div style="width:40px;height:40px;border-radius:6px;background:#2D1B4E;border:1px solid rgba(255,255,255,0.12);margin:0 auto;"></div><div class="mono" style="font-size:9px;color:rgba(255,255,255,0.5);margin-top:6px;">deepViolet</div><div style="font-size:9px;color:rgba(255,255,255,0.35);margin-top:2px;line-height:1.3;">Primary CTA, logo fill</div></div>
+              <div style="flex:1;text-align:center;"><div style="width:40px;height:40px;border-radius:6px;background:#4A3366;border:1px solid rgba(255,255,255,0.12);margin:0 auto;"></div><div class="mono" style="font-size:9px;color:rgba(255,255,255,0.5);margin-top:6px;">softPurple</div><div style="font-size:9px;color:rgba(255,255,255,0.35);margin-top:2px;line-height:1.3;">Secondary, icon tints</div></div>
+              <div style="flex:1;text-align:center;"><div style="width:40px;height:40px;border-radius:6px;background:#6B5B8A;border:1px solid rgba(255,255,255,0.12);margin:0 auto;"></div><div class="mono" style="font-size:9px;color:rgba(255,255,255,0.5);margin-top:6px;">purpleMid</div><div style="font-size:9px;color:rgba(255,255,255,0.35);margin-top:2px;line-height:1.3;">Script text, subtle labels</div></div>
+              <div style="flex:1;text-align:center;"><div style="width:40px;height:40px;border-radius:6px;background:#F3F0F8;border:1px solid rgba(255,255,255,0.12);margin:0 auto;"></div><div class="mono" style="font-size:9px;color:rgba(255,255,255,0.5);margin-top:6px;">lightPurple</div><div style="font-size:9px;color:rgba(255,255,255,0.35);margin-top:2px;line-height:1.3;">Tinted backgrounds, badges</div></div>
+              <div style="flex:1;text-align:center;"><div style="width:40px;height:40px;border-radius:6px;background:rgba(74,51,102,0.08);border:1px solid rgba(255,255,255,0.12);margin:0 auto;"></div><div class="mono" style="font-size:9px;color:rgba(255,255,255,0.5);margin-top:6px;">pfMuted</div><div style="font-size:9px;color:rgba(255,255,255,0.35);margin-top:2px;line-height:1.3;">Scope notes, callouts</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-head"><span class="section-title">Text Opacity Scale</span><span class="maturity maturity-locked">LOCKED</span></div>
+          <p style="font-size:13px;color:rgba(255,255,255,0.55);line-height:1.7;margin-bottom:8px;max-width:680px;">Four-tier text hierarchy for dark and light mode. Updated April 2026 to meet WCAG AA contrast requirements (4.5:1 normal text, 3:1 large text 14px+). Estate Dashboard tokens ed-t3 and ed-t4 are now formally part of this scale.</p>
+          <div style="padding:10px 14px;border-radius:8px;background:rgba(9,179,143,0.06);border:1px solid rgba(9,179,143,0.15);margin-bottom:16px;">
+            <div style="font-size:11px;color:rgba(9,179,143,0.9);line-height:1.5;">Build rule: No dark-mode text below 35% white opacity. No light-mode text below 40% black opacity. Minimum font size for tier 4 labels is 10px. These floors are non-negotiable for accessibility.</div>
+          </div>
+          <div class="dual">
+            <div class="dual-dark">
+              <div class="dual-label dual-label-dark">DARK</div>
+              <div style="display:flex;gap:16px;">
+                <div style="flex:1;text-align:center;padding:10px 6px;background:rgba(255,255,255,0.02);border-radius:8px;border:1px solid rgba(255,255,255,0.04);"><div style="font-size:18px;font-weight:700;color:rgba(255,255,255,0.87);">Aa</div><div class="mono" style="font-size:9px;color:rgba(255,255,255,0.5);margin-top:4px;">--foreground</div><div class="mono" style="font-size:8px;color:rgba(255,255,255,0.4);">white @87%</div><div class="mono" style="font-size:8px;color:rgba(9,179,143,0.9);margin-top:2px;">~5.5:1 AA PASS</div></div>
+                <div style="flex:1;text-align:center;padding:10px 6px;background:rgba(255,255,255,0.02);border-radius:8px;border:1px solid rgba(255,255,255,0.04);"><div style="font-size:18px;font-weight:700;color:rgba(255,255,255,0.60);">Aa</div><div class="mono" style="font-size:9px;color:rgba(255,255,255,0.5);margin-top:4px;">--muted-foreground</div><div class="mono" style="font-size:8px;color:rgba(255,255,255,0.4);">white @60%</div><div class="mono" style="font-size:8px;color:rgba(9,179,143,0.9);margin-top:2px;">~3.5:1 AA 14px+</div></div>
+                <div style="flex:1;text-align:center;padding:10px 6px;background:rgba(255,255,255,0.02);border-radius:8px;border:1px solid rgba(255,255,255,0.04);"><div style="font-size:18px;font-weight:700;color:rgba(255,255,255,0.50);">Aa</div><div class="mono" style="font-size:9px;color:rgba(255,255,255,0.5);margin-top:4px;">--ed-t3</div><div class="mono" style="font-size:8px;color:rgba(255,255,255,0.4);">white @50%</div><div class="mono" style="font-size:8px;color:rgba(9,179,143,0.9);margin-top:2px;">~3.0:1 AA 14px+</div></div>
+                <div style="flex:1;text-align:center;padding:10px 6px;background:rgba(255,255,255,0.02);border-radius:8px;border:1px solid rgba(255,255,255,0.04);"><div style="font-size:18px;font-weight:700;color:rgba(255,255,255,0.35);">Aa</div><div class="mono" style="font-size:9px;color:rgba(255,255,255,0.5);margin-top:4px;">--ed-t4</div><div class="mono" style="font-size:8px;color:rgba(255,255,255,0.4);">white @35%</div><div class="mono" style="font-size:8px;color:rgba(209,143,67,0.9);margin-top:2px;">min 10px only</div></div>
+              </div>
+            </div>
+            <div class="dual-light">
+              <div class="dual-label dual-label-light">LIGHT</div>
+              <div style="display:flex;gap:16px;">
+                <div style="flex:1;text-align:center;padding:10px 6px;background:rgba(0,0,0,0.02);border-radius:8px;border:1px solid rgba(0,0,0,0.04);"><div style="font-size:18px;font-weight:700;color:#2D2D2D;">Aa</div><div class="mono" style="font-size:9px;color:rgba(0,0,0,0.5);margin-top:4px;">--foreground</div><div class="mono" style="font-size:8px;color:rgba(0,0,0,0.4);">#2D2D2D</div><div class="mono" style="font-size:8px;color:#16A34A;margin-top:2px;">~12:1 AA PASS</div></div>
+                <div style="flex:1;text-align:center;padding:10px 6px;background:rgba(0,0,0,0.02);border-radius:8px;border:1px solid rgba(0,0,0,0.04);"><div style="font-size:18px;font-weight:700;color:#6B7280;">Aa</div><div class="mono" style="font-size:9px;color:rgba(0,0,0,0.5);margin-top:4px;">--muted-foreground</div><div class="mono" style="font-size:8px;color:rgba(0,0,0,0.4);">#6B7280</div><div class="mono" style="font-size:8px;color:#16A34A;margin-top:2px;">~4.6:1 AA PASS</div></div>
+                <div style="flex:1;text-align:center;padding:10px 6px;background:rgba(0,0,0,0.02);border-radius:8px;border:1px solid rgba(0,0,0,0.04);"><div style="font-size:18px;font-weight:700;color:rgba(0,0,0,0.55);">Aa</div><div class="mono" style="font-size:9px;color:rgba(0,0,0,0.5);margin-top:4px;">--ed-t3</div><div class="mono" style="font-size:8px;color:rgba(0,0,0,0.4);">rgba(0,0,0,0.55)</div><div class="mono" style="font-size:8px;color:#16A34A;margin-top:2px;">~4.2:1 AA 14px+</div></div>
+                <div style="flex:1;text-align:center;padding:10px 6px;background:rgba(0,0,0,0.02);border-radius:8px;border:1px solid rgba(0,0,0,0.04);"><div style="font-size:18px;font-weight:700;color:rgba(0,0,0,0.40);">Aa</div><div class="mono" style="font-size:9px;color:rgba(0,0,0,0.5);margin-top:4px;">--ed-t4</div><div class="mono" style="font-size:8px;color:rgba(0,0,0,0.4);">rgba(0,0,0,0.40)</div><div class="mono" style="font-size:8px;color:#16A34A;margin-top:2px;">min 10px only</div></div>
+              </div>
+            </div>
+          </div>
+          <div style="margin-top:12px;padding:10px 14px;border-radius:8px;background:rgba(209,143,67,0.06);border:1px solid rgba(209,143,67,0.15);">
+            <div class="mono" style="font-size:9px;font-weight:700;color:rgba(209,143,67,0.9);margin-bottom:4px;letter-spacing:0.06em;">MIGRATION FROM PRE-APRIL 2026 VALUES</div>
+            <div style="font-size:11px;color:rgba(255,255,255,0.55);line-height:1.6;">Prior values: --foreground white@70%, --muted-foreground white@40%, tertiary white@25%, quaternary white@15%. These failed WCAG AA across all tiers in dark mode. Files updated: globals.css (.dark block) and ed-t3/ed-t4 tokens.</div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-head"><span class="section-title">Spacing &amp; Radius</span><span class="maturity maturity-draft">DRAFT</span></div>
+          <div class="grid-2">
+            <div class="hover-card">
+              <div class="mono" style="font-size:10px;color:rgba(255,255,255,0.35);margin-bottom:12px;">SPACING SCALE</div>
+              <div>
+                <div style="display:flex;align-items:center;gap:12px;padding:4px 0;"><span class="mono" style="font-size:10px;color:rgba(255,255,255,0.5);width:28px;">2xs</span><span class="mono" style="font-size:10px;color:rgba(255,255,255,0.35);width:32px;">4px</span><div style="width:4px;height:10px;background:rgba(78,70,156,0.6);border-radius:2px;min-width:4px;"></div></div>
+                <div style="display:flex;align-items:center;gap:12px;padding:4px 0;"><span class="mono" style="font-size:10px;color:rgba(255,255,255,0.5);width:28px;">xs</span><span class="mono" style="font-size:10px;color:rgba(255,255,255,0.35);width:32px;">8px</span><div style="width:8px;height:10px;background:rgba(78,70,156,0.6);border-radius:2px;"></div></div>
+                <div style="display:flex;align-items:center;gap:12px;padding:4px 0;"><span class="mono" style="font-size:10px;color:rgba(255,255,255,0.5);width:28px;">sm</span><span class="mono" style="font-size:10px;color:rgba(255,255,255,0.35);width:32px;">12px</span><div style="width:12px;height:10px;background:rgba(78,70,156,0.6);border-radius:2px;"></div></div>
+                <div style="display:flex;align-items:center;gap:12px;padding:4px 0;"><span class="mono" style="font-size:10px;color:rgba(255,255,255,0.5);width:28px;">md</span><span class="mono" style="font-size:10px;color:rgba(255,255,255,0.35);width:32px;">16px</span><div style="width:16px;height:10px;background:rgba(78,70,156,0.6);border-radius:2px;"></div></div>
+                <div style="display:flex;align-items:center;gap:12px;padding:4px 0;"><span class="mono" style="font-size:10px;color:rgba(255,255,255,0.5);width:28px;">lg</span><span class="mono" style="font-size:10px;color:rgba(255,255,255,0.35);width:32px;">20px</span><div style="width:20px;height:10px;background:rgba(78,70,156,0.6);border-radius:2px;"></div></div>
+                <div style="display:flex;align-items:center;gap:12px;padding:4px 0;"><span class="mono" style="font-size:10px;color:rgba(255,255,255,0.5);width:28px;">xl</span><span class="mono" style="font-size:10px;color:rgba(255,255,255,0.35);width:32px;">24px</span><div style="width:24px;height:10px;background:rgba(78,70,156,0.6);border-radius:2px;"></div></div>
+                <div style="display:flex;align-items:center;gap:12px;padding:4px 0;"><span class="mono" style="font-size:10px;color:rgba(255,255,255,0.5);width:28px;">2xl</span><span class="mono" style="font-size:10px;color:rgba(255,255,255,0.35);width:32px;">32px</span><div style="width:32px;height:10px;background:rgba(78,70,156,0.6);border-radius:2px;"></div></div>
+                <div style="display:flex;align-items:center;gap:12px;padding:4px 0;"><span class="mono" style="font-size:10px;color:rgba(255,255,255,0.5);width:28px;">3xl</span><span class="mono" style="font-size:10px;color:rgba(255,255,255,0.35);width:32px;">48px</span><div style="width:48px;height:10px;background:rgba(78,70,156,0.6);border-radius:2px;"></div></div>
+              </div>
+            </div>
+            <div class="hover-card">
+              <div class="mono" style="font-size:10px;color:rgba(255,255,255,0.35);margin-bottom:12px;">BORDER RADIUS</div>
+              <div style="display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap;">
+                <div style="text-align:center;"><div style="width:36px;height:36px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.12);border-radius:4px;margin:0 auto 4px;"></div><div class="mono" style="font-size:9px;color:rgba(255,255,255,0.5);">sm</div></div>
+                <div style="text-align:center;"><div style="width:36px;height:36px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.12);border-radius:6px;margin:0 auto 4px;"></div><div class="mono" style="font-size:9px;color:rgba(255,255,255,0.5);">md</div></div>
+                <div style="text-align:center;"><div style="width:36px;height:36px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.12);border-radius:8px;margin:0 auto 4px;"></div><div class="mono" style="font-size:9px;color:rgba(255,255,255,0.5);">base</div></div>
+                <div style="text-align:center;"><div style="width:36px;height:36px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.12);border-radius:10px;margin:0 auto 4px;"></div><div class="mono" style="font-size:9px;color:rgba(255,255,255,0.5);">lg</div></div>
+                <div style="text-align:center;"><div style="width:36px;height:36px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.12);border-radius:14px;margin:0 auto 4px;"></div><div class="mono" style="font-size:9px;color:rgba(255,255,255,0.5);">xl</div></div>
+                <div style="text-align:center;"><div style="width:36px;height:36px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.12);border-radius:16px;margin:0 auto 4px;"></div><div class="mono" style="font-size:9px;color:rgba(255,255,255,0.5);">2xl</div></div>
+                <div style="text-align:center;"><div style="width:36px;height:36px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.12);border-radius:50%;margin:0 auto 4px;"></div><div class="mono" style="font-size:9px;color:rgba(255,255,255,0.5);">full</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ SURFACES & MOTION ============ -->
+      <section class="tab-panel" data-panel="surfaces" role="tabpanel">
+        <div class="section">
+          <div class="section-head"><span class="section-title">Surface Hierarchy</span><span class="maturity maturity-locked">LOCKED</span></div>
+          <div class="dual">
+            <div class="dual-dark">
+              <div class="dual-label dual-label-dark">DARK</div>
+              <div style="display:flex;flex-direction:column;gap:8px;">
+                <div style="padding:10px 12px;border-radius:8px;background:transparent;border:1px solid transparent;"><div style="font-size:11px;font-weight:600;color:rgba(255,255,255,0.7);">Level 0</div><div class="mono" style="font-size:9px;color:rgba(255,255,255,0.4);">Page background</div></div>
+                <div style="padding:10px 12px;border-radius:8px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);"><div style="font-size:11px;font-weight:600;color:rgba(255,255,255,0.7);">Level 1</div><div class="mono" style="font-size:9px;color:rgba(255,255,255,0.4);">Cards, panels</div></div>
+                <div style="padding:10px 12px;border-radius:8px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);"><div style="font-size:11px;font-weight:600;color:rgba(255,255,255,0.7);">Level 2</div><div class="mono" style="font-size:9px;color:rgba(255,255,255,0.4);">Hover, nested cards</div></div>
+                <div style="padding:10px 12px;border-radius:8px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);"><div style="font-size:11px;font-weight:600;color:rgba(255,255,255,0.7);">Level 3</div><div class="mono" style="font-size:9px;color:rgba(255,255,255,0.4);">Active, tooltips</div></div>
+              </div>
+            </div>
+            <div class="dual-light">
+              <div class="dual-label dual-label-light">LIGHT</div>
+              <div style="display:flex;flex-direction:column;gap:8px;">
+                <div style="padding:10px 12px;border-radius:8px;background:#FAFAF8;"><div style="font-size:11px;font-weight:600;color:#2D2D2D;">Level 0 - Neutral</div><div class="mono" style="font-size:9px;color:#6B7280;">Default page background (warmWhite)</div></div>
+                <div style="padding:10px 12px;border-radius:8px;background:linear-gradient(165deg, #F8F6FA 0%, #F0ECF2 40%, #EEEAED 100%);"><div style="font-size:11px;font-weight:600;color:#2D2D2D;">Level 0 - Onboarding</div><div class="mono" style="font-size:9px;color:#6B7280;">Onboarding pages (lavender gradient)</div></div>
+                <div style="padding:10px 12px;border-radius:8px;background:#FFFFFF;border:1px solid #F3F4F6;"><div style="font-size:11px;font-weight:600;color:#2D2D2D;">Level 1</div><div class="mono" style="font-size:9px;color:#6B7280;">Cards, panels</div></div>
+                <div style="padding:10px 12px;border-radius:8px;background:#FFFFFF;border:1px solid #E5E7EB;box-shadow:0 1px 4px rgba(0,0,0,0.04);"><div style="font-size:11px;font-weight:600;color:#2D2D2D;">Level 2</div><div class="mono" style="font-size:9px;color:#6B7280;">Hover, elevated cards</div></div>
+                <div style="padding:10px 12px;border-radius:8px;background:#FFFFFF;border:1px solid #2D1B4E;"><div style="font-size:11px;font-weight:600;color:#2D2D2D;">Level 3</div><div class="mono" style="font-size:9px;color:#6B7280;">Focused, highlighted</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-head"><span class="section-title">Semantic Surfaces</span><span class="maturity maturity-draft">DRAFT</span></div>
+          <div class="dual">
+            <div class="dual-dark">
+              <div class="dual-label dual-label-dark">DARK</div>
+              <div style="display:flex;flex-direction:column;gap:6px;">
+                <div style="padding:10px 12px;border-radius:8px;background:rgba(9,179,143,0.08);border:1px solid rgba(9,179,143,0.3);"><div style="font-size:11px;font-weight:600;color:#09b38f;">Success surface</div></div>
+                <div style="padding:10px 12px;border-radius:8px;background:rgba(209,143,67,0.08);border:1px solid rgba(209,143,67,0.3);"><div style="font-size:11px;font-weight:600;color:#d18f43;">Warning surface</div></div>
+                <div style="padding:10px 12px;border-radius:8px;background:rgba(218,54,89,0.08);border:1px solid rgba(218,54,89,0.3);"><div style="font-size:11px;font-weight:600;color:#da3659;">Error surface</div></div>
+                <div style="padding:10px 12px;border-radius:8px;background:rgba(74,51,102,0.08);border:1px solid rgba(74,51,102,0.3);"><div style="font-size:11px;font-weight:600;color:rgba(255,255,255,0.7);">Pathfinder surface</div></div>
+              </div>
+            </div>
+            <div class="dual-light">
+              <div class="dual-label dual-label-light">LIGHT</div>
+              <div style="display:flex;flex-direction:column;gap:6px;">
+                <div style="padding:10px 12px;border-radius:8px;background:#F0FDF4;border:1px solid #BBF7D0;"><div style="font-size:11px;font-weight:600;color:#16A34A;">Success surface</div></div>
+                <div style="padding:10px 12px;border-radius:8px;background:#FEF0E8;border:1px solid #FBCDB0;"><div style="font-size:11px;font-weight:600;color:#e9753d;">Warning surface</div></div>
+                <div style="padding:10px 12px;border-radius:8px;background:#FFF1F2;border:1px solid #FECDD3;"><div style="font-size:11px;font-weight:600;color:#E11D48;">Error surface</div></div>
+                <div style="padding:10px 12px;border-radius:8px;background:rgba(13,148,136,0.06);border:1px solid rgba(13,148,136,0.3);"><div style="font-size:11px;font-weight:600;color:#115E56;">Security surface</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-head"><span class="section-title">Animation &amp; Motion</span><span class="maturity maturity-draft">DRAFT</span></div>
+          <div class="grid-3">
+            <div class="hover-card">
+              <div class="mono" style="font-size:20px;font-weight:700;color:rgba(255,255,255,0.7);margin-bottom:4px;">200ms</div>
+              <div style="font-size:12px;font-weight:600;color:rgba(255,255,255,0.7);">Micro</div>
+              <div style="font-size:11px;color:rgba(255,255,255,0.45);margin-top:4px;">Hover, focus, toggle</div>
+              <div class="mono" style="font-size:9px;color:rgba(255,255,255,0.35);margin-top:4px;">ease</div>
+            </div>
+            <div class="hover-card">
+              <div class="mono" style="font-size:20px;font-weight:700;color:rgba(255,255,255,0.7);margin-bottom:4px;">300ms</div>
+              <div style="font-size:12px;font-weight:600;color:rgba(255,255,255,0.7);">State</div>
+              <div style="font-size:11px;color:rgba(255,255,255,0.45);margin-top:4px;">Tab switch, drawer open, panel expand</div>
+              <div class="mono" style="font-size:9px;color:rgba(255,255,255,0.35);margin-top:4px;">ease / ease-out</div>
+            </div>
+            <div class="hover-card">
+              <div class="mono" style="font-size:20px;font-weight:700;color:rgba(255,255,255,0.7);margin-bottom:4px;">500-800ms</div>
+              <div style="font-size:12px;font-weight:600;color:rgba(255,255,255,0.7);">Significant</div>
+              <div style="font-size:11px;color:rgba(255,255,255,0.45);margin-top:4px;">Logo state change, page transition, completion</div>
+              <div class="mono" style="font-size:9px;color:rgba(255,255,255,0.35);margin-top:4px;">ease-out / cubic-bezier</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="open-decision">
+          <div class="open-decision-head"><span class="maturity maturity-open">OPEN</span><span class="open-decision-question">Backdrop blur for overlays?</span></div>
+          <div class="open-decision-context">Should modals, drawers, and tooltips use backdrop-filter: blur()? Affects perceived depth and may conflict with the translucent surface system.</div>
+        </div>
+        <div class="open-decision">
+          <div class="open-decision-head"><span class="maturity maturity-open">OPEN</span><span class="open-decision-question">Page transition pattern?</span></div>
+          <div class="open-decision-context">How do views transition? Fade? Slide? Instant? Affects perceived performance between workspace, Filing Desk, and multi-estate dashboard.</div>
+        </div>
+      </section>
+
+      <!-- ============ COMPONENTS ============ -->
+      <section class="tab-panel" data-panel="components" role="tabpanel">
+        <div class="section">
+          <div class="section-head"><span class="section-title">Component Inventory</span></div>
+          <div class="grid-3">
+            <div class="hover-card">
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;"><span class="maturity maturity-locked">LOCKED</span><span style="font-size:12px;font-weight:600;color:rgba(255,255,255,0.7);">Established</span></div>
+              <div style="font-size:11px;color:rgba(255,255,255,0.45);line-height:1.6;">Animated Logo, Badges/Pills, Section Headers, Tab Bars, Progress Bars, Maturity Indicators</div>
+            </div>
+            <div class="hover-card">
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;"><span class="maturity maturity-draft">DRAFT</span><span style="font-size:12px;font-weight:600;color:rgba(255,255,255,0.7);">In Use</span></div>
+              <div style="font-size:11px;color:rgba(255,255,255,0.45);line-height:1.6;">Data Tables, Role Selection Cards, Comparison Grids, Form Inputs (basic), Slider Controls, Alert Surfaces, Encouragement Panels</div>
+            </div>
+            <div class="hover-card">
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;"><span class="maturity maturity-open">OPEN</span><span style="font-size:12px;font-weight:600;color:rgba(255,255,255,0.7);">Needed</span></div>
+              <div style="font-size:11px;color:rgba(255,255,255,0.45);line-height:1.6;">Buttons (full system), Modals/Dialogs, Toasts, Dropdowns, Navigation, File Upload, Date Pickers, Empty States</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-head"><span class="section-title">Badges &amp; Pills</span><span class="maturity maturity-locked">LOCKED</span></div>
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:12px;">
+            <span class="mono" style="display:inline-block;padding:3px 10px;border-radius:6px;background:rgba(9,179,143,0.15);font-size:10px;font-weight:600;color:#09b38f;letter-spacing:0.04em;">LOCKED</span>
+            <span class="mono" style="display:inline-block;padding:3px 10px;border-radius:6px;background:rgba(209,143,67,0.15);font-size:10px;font-weight:600;color:#d18f43;letter-spacing:0.04em;">DRAFT</span>
+            <span class="mono" style="display:inline-block;padding:3px 10px;border-radius:6px;background:rgba(155,42,124,0.15);font-size:10px;font-weight:600;color:#9b2a7c;letter-spacing:0.04em;">OPEN</span>
+            <span class="mono" style="display:inline-block;padding:3px 10px;border-radius:6px;background:rgba(78,70,156,0.2);font-size:10px;font-weight:600;color:rgba(78,70,156,0.95);letter-spacing:0.04em;">Meridian 1.0.0</span>
+            <span class="mono" style="display:inline-block;padding:3px 10px;border-radius:6px;background:linear-gradient(135deg,#2D1B4E,#4A3366);font-size:10px;font-weight:600;color:#fff;letter-spacing:0.04em;">Recommended</span>
+            <span class="mono" style="display:inline-block;padding:3px 10px;border-radius:6px;background:#E5E7EB;font-size:10px;font-weight:600;color:#6B7280;letter-spacing:0.04em;">Current Plan</span>
+          </div>
+          <div style="font-size:11px;color:rgba(255,255,255,0.45);">DM Mono 10px/600. Padding 3px 10px. Radius 6px. Works in both modes.</div>
+        </div>
+
+        <div class="section">
+          <div class="section-head"><span class="section-title">Progress Bar</span><span class="maturity maturity-locked">LOCKED</span></div>
+          <div class="dual">
+            <div class="dual-dark">
+              <div class="dual-label dual-label-dark">DARK</div>
+              <div><div style="height:4px;background:rgba(255,255,255,0.06);border-radius:2px;overflow:hidden;"><div style="height:100%;width:66%;background:linear-gradient(90deg,#4e469c,#09b38f);border-radius:2px;"></div></div><div class="mono" style="font-size:9px;color:rgba(255,255,255,0.4);margin-top:6px;">deepViolet to teal gradient fill</div></div>
+            </div>
+            <div class="dual-light">
+              <div class="dual-label dual-label-light">LIGHT</div>
+              <div><div style="height:4px;background:#E5E7EB;border-radius:2px;overflow:hidden;"><div style="height:100%;width:66%;background:linear-gradient(90deg,#2D1B4E,#0D9488);border-radius:2px;"></div></div><div class="mono" style="font-size:9px;color:rgba(0,0,0,0.4);margin-top:6px;">deepViolet to teal gradient fill</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-head"><span class="section-title">Comparison Grid</span><span class="maturity maturity-draft">DRAFT</span></div>
+          <p style="font-size:13px;color:rgba(255,255,255,0.55);line-height:1.7;margin-bottom:16px;max-width:640px;">Three-column comparison pattern from the onboarding value proposition. Highlighted column elevates with shadow and accent bar. De-emphasized column reduces opacity.</p>
+          <div style="padding:20px;border-radius:14px;background:linear-gradient(165deg,#F8F6FA 0%,#F0ECF2 40%,#EEEAED 100%);border:1px solid rgba(255,255,255,0.06);">
+            <div class="grid-3" style="gap:12px;">
+              <div style="border-radius:14px;overflow:hidden;border:2px solid #F3F4F6;background:#FFFFFF;box-shadow:0 1px 4px rgba(0,0,0,0.04);opacity:0.65;position:relative;">
+                <div style="padding:16px 14px;"><div style="font-size:12px;font-weight:700;color:#6B7280;margin-bottom:12px;">De-emphasized</div><div style="margin-bottom:8px;"><div style="font-size:9px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:#6B7280;margin-bottom:2px;">Metric A</div><div style="font-size:12px;font-weight:600;color:#2D2D2D;">Value 1</div></div><div style="margin-bottom:8px;"><div style="font-size:9px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:#6B7280;margin-bottom:2px;">Metric B</div><div style="font-size:12px;font-weight:600;color:#2D2D2D;">Value 2</div></div><div style="margin-bottom:8px;"><div style="font-size:9px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:#6B7280;margin-bottom:2px;">Metric C</div><div style="font-size:12px;font-weight:600;color:#2D2D2D;">Value 3</div></div></div>
+              </div>
+              <div style="border-radius:14px;overflow:hidden;border:2px solid #F3F4F6;background:#FFFFFF;box-shadow:0 1px 4px rgba(0,0,0,0.04);position:relative;">
+                <div style="padding:16px 14px;"><div style="font-size:12px;font-weight:700;color:#6B7280;margin-bottom:12px;">Neutral</div><div style="margin-bottom:8px;"><div style="font-size:9px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:#6B7280;margin-bottom:2px;">Metric A</div><div style="font-size:12px;font-weight:600;color:#2D2D2D;">Value 1</div></div><div style="margin-bottom:8px;"><div style="font-size:9px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:#6B7280;margin-bottom:2px;">Metric B</div><div style="font-size:12px;font-weight:600;color:#2D2D2D;">Value 2</div></div><div style="margin-bottom:8px;"><div style="font-size:9px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:#6B7280;margin-bottom:2px;">Metric C</div><div style="font-size:12px;font-weight:600;color:#2D2D2D;">Value 3</div></div></div>
+              </div>
+              <div style="border-radius:14px;overflow:hidden;border:2px solid #2D1B4E;background:#FFFFFF;box-shadow:0 8px 32px rgba(45,27,78,0.12);transform:translateY(-4px);position:relative;">
+                <div style="position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#2D1B4E,#0D9488);"></div>
+                <div style="padding:16px 14px;"><div style="font-size:12px;font-weight:700;color:#2D1B4E;margin-bottom:12px;">Highlighted</div><div style="margin-bottom:8px;"><div style="font-size:9px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:#6B7280;margin-bottom:2px;">Metric A</div><div style="font-size:12px;font-weight:600;color:#16A34A;">Value 1</div></div><div style="margin-bottom:8px;"><div style="font-size:9px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:#6B7280;margin-bottom:2px;">Metric B</div><div style="font-size:12px;font-weight:600;color:#2D2D2D;">Value 2</div></div><div style="margin-bottom:8px;"><div style="font-size:9px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:#6B7280;margin-bottom:2px;">Metric C</div><div style="font-size:12px;font-weight:600;color:#16A34A;">Value 3</div></div></div>
+              </div>
+            </div>
+          </div>
+          <div class="mono" style="font-size:10px;color:rgba(255,255,255,0.4);margin-top:8px;">Highlighted: 2px deepViolet border, -4px translateY, gradient accent bar, stronger shadow. De-emphasized: 0.65 opacity.</div>
+        </div>
+
+        <div class="section">
+          <div class="section-head"><span class="section-title">Encouragement Panel</span><span class="maturity maturity-draft">DRAFT</span></div>
+          <p style="font-size:13px;color:rgba(255,255,255,0.55);line-height:1.7;margin-bottom:16px;max-width:640px;">Split-panel layout for onboarding. Left side (42%) carries empathetic messaging with subtle gradient background and ghost radial. Right side (58%) holds form content.</p>
+          <div style="display:flex;gap:0;border-radius:14px;overflow:hidden;border:1px solid rgba(255,255,255,0.06);height:200px;">
+            <div style="flex:0 0 42%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;position:relative;overflow:hidden;background:linear-gradient(165deg,#F8F6FA 0%,#F0ECF2 40%,#EEEAED 100%);">
+              <div style="position:absolute;top:20%;left:30%;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(45,27,78,0.03) 0%,transparent 70%);pointer-events:none;"></div>
+              <div class="ap-logo" data-size="32" data-mode="light" data-speed="20" data-glow="0.2"></div>
+              <div class="script" style="font-size:22px;font-weight:500;color:#6B5B8A;opacity:0.85;text-align:center;margin-top:12px;">You're not alone</div>
+              <div style="font-size:12px;color:#6B7280;text-align:center;margin-top:6px;max-width:200px;">We've helped thousands navigate this difficult time.</div>
+            </div>
+            <div style="flex:1;background:#FFFFFF;padding:24px;display:flex;flex-direction:column;justify-content:center;">
+              <div class="mono" style="font-size:9px;color:#6B7280;margin-bottom:8px;">FORM CONTENT AREA</div>
+              <div style="height:12px;background:#F3F4F6;border-radius:4px;margin-bottom:8px;width:80%;"></div>
+              <div style="height:12px;background:#F3F4F6;border-radius:4px;margin-bottom:8px;width:60%;"></div>
+              <div style="height:36px;background:#F3F4F6;border-radius:8px;width:100%;"></div>
+            </div>
+          </div>
+          <div class="mono" style="font-size:10px;color:rgba(255,255,255,0.4);margin-top:8px;">Caveat 28px/500 at purpleMid 55% opacity. Ghost radial at deepViolet 3% opacity. Logo at ambient speed (20s).</div>
+        </div>
+
+        <div class="section">
+          <div class="section-head"><span class="section-title">Buttons</span><span class="maturity maturity-open">OPEN</span></div>
+          <div class="open-decision">
+            <div class="open-decision-head"><span class="maturity maturity-open">OPEN</span><span class="open-decision-question">Full button system?</span></div>
+            <div class="open-decision-context">Primary (deepViolet bg, white text, shadow), secondary (outline), ghost (transparent). Need size scale, loading states, icon-only variant. Filing Desk and Completeness Gate both depend on this.</div>
+          </div>
+          <div style="font-size:11px;color:rgba(255,255,255,0.45);line-height:1.6;"><strong style="color:rgba(255,255,255,0.7);">Emerging patterns:</strong> Primary CTA uses deepViolet background, 14px vertical padding, radius 12, shadow 0 4px 16px rgba(45,27,78,0.2). Outline variant uses 1.5px borderLight border, warmGray text.</div>
+        </div>
+
+        <div class="section">
+          <div class="section-head"><span class="section-title">Form Inputs, Modals, Navigation</span><span class="maturity maturity-open">OPEN</span></div>
+          <div class="open-decision">
+            <div class="open-decision-head"><span class="maturity maturity-open">OPEN</span><span class="open-decision-question">Form input system?</span></div>
+            <div class="open-decision-context">Basic inputs exist in onboarding (inputBg #F8F9FB, inputBorder #E2E5EB, inputFocus #C4B5FD, radius 10). Need dark mode variants, select, textarea, checkbox, date picker, validation states.</div>
+          </div>
+          <div class="open-decision">
+            <div class="open-decision-head"><span class="maturity maturity-open">OPEN</span><span class="open-decision-question">Modal/dialog pattern?</span></div>
+            <div class="open-decision-context">Oath affirmation, confirmation flows, RON prep. Backdrop, animation, close behavior.</div>
+          </div>
+          <div class="open-decision">
+            <div class="open-decision-head"><span class="maturity maturity-open">OPEN</span><span class="open-decision-question">Navigation architecture?</span></div>
+            <div class="open-decision-context">Sidebar (collapsed/expanded), breadcrumbs, estate-level context bar, mobile nav.</div>
+          </div>
+          <div class="open-decision">
+            <div class="open-decision-head"><span class="maturity maturity-open">OPEN</span><span class="open-decision-question">Icon system?</span></div>
+            <div class="open-decision-context">Currently emoji placeholders. Need: Lucide, Phosphor, or custom. Outlined vs. filled.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ APPLICATIONS ============ -->
+      <section class="tab-panel" data-panel="applications" role="tabpanel">
+        <div class="section">
+          <div class="section-head"><span class="section-title">How Global Tokens Get Applied</span></div>
+          <div style="padding:18px 22px;border-radius:12px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);margin-bottom:16px;">
+            <p style="font-size:13px;color:rgba(255,255,255,0.6);line-height:1.7;">The Foundation and Surfaces tabs define the <strong style="color:rgba(255,255,255,0.8);">global design system</strong> - tokens and patterns that apply everywhere. This tab shows how specific product areas <em>apply</em> those globals. Each application section is an example, not a new set of rules. If a pattern here doesn't trace back to a global token, it should be promoted to the global system or flagged as a deviation.</p>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-head"><span class="section-title">Application: B2C Onboarding</span><span class="maturity maturity-draft">DRAFT</span></div>
+          <div class="grid-2">
+            <div class="hover-card"><div style="font-size:12px;font-weight:600;color:rgba(255,255,255,0.7);">Mode</div><div style="font-size:12px;color:rgba(255,255,255,0.55);margin-top:4px;line-height:1.6;">Light mode exclusively. Uses the lavender gradient background (bgGradStart to bgGradEnd). No dark mode surfaces.</div></div>
+            <div class="hover-card"><div style="font-size:12px;font-weight:600;color:rgba(255,255,255,0.7);">Layout</div><div style="font-size:12px;color:rgba(255,255,255,0.55);margin-top:4px;line-height:1.6;">42/58 split-panel. Left: encouragement (Caveat script, logo ambient). Right: form steps. Progress bar at top of right panel.</div></div>
+            <div class="hover-card"><div style="font-size:12px;font-weight:600;color:rgba(255,255,255,0.7);">Headlines</div><div style="font-size:12px;color:rgba(255,255,255,0.55);margin-top:4px;line-height:1.6;">DM Sans 28px/700, charcoal. Empathetic, action-oriented. "Welcome. Let's get started together." Body: 15px/400, warmGray.</div></div>
+            <div class="hover-card"><div style="font-size:12px;font-weight:600;color:rgba(255,255,255,0.7);">Selection cards</div><div style="font-size:12px;color:rgba(255,255,255,0.55);margin-top:4px;line-height:1.6;">2px border, radius 14. Selected: semantic color border + tinted background. Unselected: borderLight. Radio dot indicator.</div></div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-head"><span class="section-title">Application: Estate Ledger Workspace</span><span class="maturity maturity-draft">DRAFT</span></div>
+          <div class="grid-2">
+            <div class="hover-card"><div style="font-size:12px;font-weight:600;color:rgba(255,255,255,0.7);">Mode</div><div style="font-size:12px;color:rgba(255,255,255,0.55);margin-top:4px;line-height:1.6;">Currently light mode with charcoal/gray palette. Future: dark mode for CPA power users. Both will use global tokens.</div></div>
+            <div class="hover-card"><div style="font-size:12px;font-weight:600;color:rgba(255,255,255,0.7);">Layout</div><div style="font-size:12px;color:rgba(255,255,255,0.55);margin-top:4px;line-height:1.6;">Three-panel: sidebar (56px collapsed), main content (asset register), right panel (form preview + Pathfinder drawer).</div></div>
+            <div class="hover-card"><div style="font-size:12px;font-weight:600;color:rgba(255,255,255,0.7);">Shell / toolbar</div><div style="font-size:12px;color:rgba(255,255,255,0.55);margin-top:4px;line-height:1.6;">Compact header (48px min-height, 12px padding). Estate name, file number, deadline badge, filing badge, multi-estate dropdown, action buttons.</div></div>
+            <div class="hover-card"><div style="font-size:12px;font-weight:600;color:rgba(255,255,255,0.7);">Data tables</div><div style="font-size:12px;color:rgba(255,255,255,0.55);margin-top:4px;line-height:1.6;">Headers: DM Mono 10px/700 uppercase. Rows: DM Sans 12px descriptions, DM Mono 12px financial values. Status badges use the global badge pattern.</div></div>
+            <div class="hover-card"><div style="font-size:12px;font-weight:600;color:rgba(255,255,255,0.7);">Filing stage colors</div><div style="font-size:12px;color:rgba(255,255,255,0.55);margin-top:4px;line-height:1.6;">Qualification (#4e469c), 90-Day Inventory (#09b38f), Annual Account (#d18f43), Final Account (#da3659). Used for stage badges and progress indicators.</div></div>
+            <div class="hover-card"><div style="font-size:12px;font-weight:600;color:rgba(255,255,255,0.7);">Pathfinder integration</div><div style="font-size:12px;color:rgba(255,255,255,0.55);margin-top:4px;line-height:1.6;">Logo uses variant="pathfinder" (deep purple #2D1B4E). Behavioral states defined in Pathfinder Interaction Guide. Drawer uses pfMuted and pfBorder tokens.</div></div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-head"><span class="section-title">Application: Filing Desk</span><span class="maturity maturity-open">OPEN</span></div>
+          <div class="open-decision">
+            <div class="open-decision-head"><span class="maturity maturity-open">OPEN</span><span class="open-decision-question">Filing Desk visual design?</span></div>
+            <div class="open-decision-context">Architecture is defined (three-layer model: workspace, filing desk, RON gate). Visual design not yet locked. Will use dark mode surfaces with filing stage color accents. Needs document packet card pattern, notarization flag pattern, download/submit CTA.</div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-head"><span class="section-title">Application: Multi-Estate Dashboard (CPA)</span><span class="maturity maturity-open">OPEN</span></div>
+          <div class="open-decision">
+            <div class="open-decision-head"><span class="maturity maturity-open">OPEN</span><span class="open-decision-question">Dashboard visual design?</span></div>
+            <div class="open-decision-context">CPA persona needs an estate switcher, cross-estate status overview, and aggregated Pathfinder insights. Will likely use dark mode. Needs card-per-estate pattern, status summary, and batch action affordances.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ GOVERNANCE ============ -->
+      <section class="tab-panel" data-panel="governance" role="tabpanel">
+        <div class="section">
+          <div class="section-head"><span class="section-title">Open Decisions - Priority Queue</span></div>
+          <div style="background:rgba(255,255,255,0.02);border-radius:12px;border:1px solid rgba(255,255,255,0.04);overflow:hidden;">
+            <div style="display:grid;grid-template-columns:1fr 1fr 80px;">
+              <div class="mono" style="padding:10px 14px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:rgba(255,255,255,0.4);border-bottom:1px solid rgba(255,255,255,0.06);background:rgba(255,255,255,0.02);">Decision Needed</div>
+              <div class="mono" style="padding:10px 14px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:rgba(255,255,255,0.4);border-bottom:1px solid rgba(255,255,255,0.06);background:rgba(255,255,255,0.02);">Blocks</div>
+              <div class="mono" style="padding:10px 14px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:rgba(255,255,255,0.4);border-bottom:1px solid rgba(255,255,255,0.06);background:rgba(255,255,255,0.02);">Priority</div>
+
+              <div style="padding:10px 14px;font-size:12px;color:rgba(255,255,255,0.7);border-bottom:1px solid rgba(255,255,255,0.03);">Full button system</div>
+              <div style="padding:10px 14px;font-size:11px;color:rgba(255,255,255,0.4);border-bottom:1px solid rgba(255,255,255,0.03);">Filing Desk CTAs, Completeness Gate</div>
+              <div class="mono" style="padding:10px 14px;font-size:10px;font-weight:600;text-align:right;color:#da3659;border-bottom:1px solid rgba(255,255,255,0.03);">High</div>
+
+              <div style="padding:10px 14px;font-size:12px;color:rgba(255,255,255,0.7);border-bottom:1px solid rgba(255,255,255,0.03);">Form input system</div>
+              <div style="padding:10px 14px;font-size:11px;color:rgba(255,255,255,0.4);border-bottom:1px solid rgba(255,255,255,0.03);">Filing Desk metadata, search/filter</div>
+              <div class="mono" style="padding:10px 14px;font-size:10px;font-weight:600;text-align:right;color:#da3659;border-bottom:1px solid rgba(255,255,255,0.03);">High</div>
+
+              <div style="padding:10px 14px;font-size:12px;color:rgba(255,255,255,0.7);border-bottom:1px solid rgba(255,255,255,0.03);">Modal / dialog pattern</div>
+              <div style="padding:10px 14px;font-size:11px;color:rgba(255,255,255,0.4);border-bottom:1px solid rgba(255,255,255,0.03);">Oath affirmation, RON prep</div>
+              <div class="mono" style="padding:10px 14px;font-size:10px;font-weight:600;text-align:right;color:#da3659;border-bottom:1px solid rgba(255,255,255,0.03);">High</div>
+
+              <div style="padding:10px 14px;font-size:12px;color:rgba(255,255,255,0.7);border-bottom:1px solid rgba(255,255,255,0.03);">Icon system</div>
+              <div style="padding:10px 14px;font-size:11px;color:rgba(255,255,255,0.4);border-bottom:1px solid rgba(255,255,255,0.03);">All features - emoji placeholders</div>
+              <div class="mono" style="padding:10px 14px;font-size:10px;font-weight:600;text-align:right;color:#d18f43;border-bottom:1px solid rgba(255,255,255,0.03);">Medium</div>
+
+              <div style="padding:10px 14px;font-size:12px;color:rgba(255,255,255,0.7);border-bottom:1px solid rgba(255,255,255,0.03);">Navigation architecture</div>
+              <div style="padding:10px 14px;font-size:11px;color:rgba(255,255,255,0.4);border-bottom:1px solid rgba(255,255,255,0.03);">Multi-estate dashboard, estate switching</div>
+              <div class="mono" style="padding:10px 14px;font-size:10px;font-weight:600;text-align:right;color:#d18f43;border-bottom:1px solid rgba(255,255,255,0.03);">Medium</div>
+
+              <div style="padding:10px 14px;font-size:12px;color:rgba(255,255,255,0.7);border-bottom:1px solid rgba(255,255,255,0.03);">Responsive breakpoints</div>
+              <div style="padding:10px 14px;font-size:11px;color:rgba(255,255,255,0.4);border-bottom:1px solid rgba(255,255,255,0.03);">Mobile executor experience</div>
+              <div class="mono" style="padding:10px 14px;font-size:10px;font-weight:600;text-align:right;color:#d18f43;border-bottom:1px solid rgba(255,255,255,0.03);">Medium</div>
+
+              <div style="padding:10px 14px;font-size:12px;color:rgba(255,255,255,0.7);border-bottom:1px solid rgba(255,255,255,0.03);">Loading / skeleton states</div>
+              <div style="padding:10px 14px;font-size:11px;color:rgba(255,255,255,0.4);border-bottom:1px solid rgba(255,255,255,0.03);">Data-heavy views, async ops</div>
+              <div class="mono" style="padding:10px 14px;font-size:10px;font-weight:600;text-align:right;color:#d18f43;border-bottom:1px solid rgba(255,255,255,0.03);">Medium</div>
+
+              <div style="padding:10px 14px;font-size:12px;color:rgba(255,255,255,0.7);border-bottom:1px solid rgba(255,255,255,0.03);">Empty states</div>
+              <div style="padding:10px 14px;font-size:11px;color:rgba(255,255,255,0.4);border-bottom:1px solid rgba(255,255,255,0.03);">New estate onboarding, zero-data views</div>
+              <div class="mono" style="padding:10px 14px;font-size:10px;font-weight:600;text-align:right;color:rgba(255,255,255,0.4);border-bottom:1px solid rgba(255,255,255,0.03);">Low</div>
+
+              <div style="padding:10px 14px;font-size:12px;color:rgba(255,255,255,0.7);border-bottom:1px solid rgba(255,255,255,0.03);">Backdrop blur</div>
+              <div style="padding:10px 14px;font-size:11px;color:rgba(255,255,255,0.4);border-bottom:1px solid rgba(255,255,255,0.03);">Modal/drawer depth treatment</div>
+              <div class="mono" style="padding:10px 14px;font-size:10px;font-weight:600;text-align:right;color:rgba(255,255,255,0.4);border-bottom:1px solid rgba(255,255,255,0.03);">Low</div>
+
+              <div style="padding:10px 14px;font-size:12px;color:rgba(255,255,255,0.7);">Page transitions</div>
+              <div style="padding:10px 14px;font-size:11px;color:rgba(255,255,255,0.4);">View-to-view navigation feel</div>
+              <div class="mono" style="padding:10px 14px;font-size:10px;font-weight:600;text-align:right;color:rgba(255,255,255,0.4);">Low</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-head"><span class="section-title">Usage Rules</span></div>
+          <div class="grid-2">
+            <div class="hover-card"><div style="font-size:12px;font-weight:600;color:rgba(255,255,255,0.7);">Check maturity before using</div><div style="font-size:12px;color:rgba(255,255,255,0.45);margin-top:6px;line-height:1.6;">LOCKED = use directly. DRAFT = use, note deviations. OPEN = don't ad-hoc, bring to design session.</div></div>
+            <div class="hover-card"><div style="font-size:12px;font-weight:600;color:rgba(255,255,255,0.7);">Reference tokens, not raw values</div><div style="font-size:12px;color:rgba(255,255,255,0.45);margin-top:6px;line-height:1.6;">Use --text-1 not rgba(255,255,255,0.7). Ensures global changes propagate.</div></div>
+            <div class="hover-card"><div style="font-size:12px;font-weight:600;color:rgba(255,255,255,0.7);">Application sections are examples, not rules</div><div style="font-size:12px;color:rgba(255,255,255,0.45);margin-top:6px;line-height:1.6;">The global tokens are the rules. Application sections show how those tokens get applied in context.</div></div>
+            <div class="hover-card"><div style="font-size:12px;font-weight:600;color:rgba(255,255,255,0.7);">OPEN decisions get their own session</div><div style="font-size:12px;color:rgba(255,255,255,0.45);margin-top:6px;line-height:1.6;">Don't solve an OPEN decision inside a feature build. Flag, placeholder, schedule.</div></div>
+            <div class="hover-card"><div style="font-size:12px;font-weight:600;color:rgba(255,255,255,0.7);">Locking requires sign-off</div><div style="font-size:12px;color:rgba(255,255,255,0.45);margin-top:6px;line-height:1.6;">Moving DRAFT to LOCKED requires review of all instances and explicit sign-off.</div></div>
+            <div class="hover-card"><div style="font-size:12px;font-weight:600;color:rgba(255,255,255,0.7);">Update after every design session</div><div style="font-size:12px;color:rgba(255,255,255,0.45);margin-top:6px;line-height:1.6;">New decisions logged. OPEN items resolved. DRAFT promoted or revised. The guide is the living record.</div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <div style="margin-top:40px;padding-top:24px;border-top:1px solid rgba(255,255,255,0.04);text-align:center;">
+        <p class="mono" style="font-size:11px;color:rgba(255,255,255,0.4);">Afterpath, Inc., a Delaware Corporation - Design System Meridian 1.0.0</p>
+      </div>
+
+    </main>
+  </div>
+
+  <script>
+    (function () {
+      'use strict';
+
+      var PINWHEEL_PATH = "M.82,88.29c-1.21-.84-1.05-2.68.29-3.3l36.98-17.24c1.24-.58,2.69-.45,3.81.33l25.25,17.64-41.98,19.58L.82,88.29ZM66.84,121.59l2.72-30.69-41.98,19.58-2.62,29.58c-.13,1.47,1.38,2.52,2.71,1.9l36.98-17.24c1.24-.58,2.07-1.77,2.19-3.13ZM88.29,163.11c-.84,1.21-2.68,1.05-3.3-.29l-17.24-36.98c-.58-1.24-.45-2.69.33-3.81l17.64-25.25,19.58,41.98-17.01,24.34ZM121.58,97.08l-30.69-2.72,19.58,41.98,29.58,2.62c1.47.13,2.52-1.38,1.9-2.71l-17.24-36.98c-.58-1.24-1.77-2.07-3.13-2.19ZM163.11,75.64c1.21.84,1.05,2.68-.29,3.3l-36.98,17.24c-1.24.58-2.69.45-3.81-.33l-25.25-17.64,41.98-19.58,24.34,17.01ZM97.08,42.34l-2.72,30.69,41.98-19.58,2.62-29.58c.13-1.47-1.38-2.52-2.71-1.9l-36.98,17.24c-1.24.58-2.07,1.77-2.19,3.13ZM75.64.82c.84-1.21,2.68-1.05,3.3.29l17.24,36.98c.58,1.24.45,2.69-.33,3.81l-17.64,25.25-19.58,41.98L75.64.82ZM42.34,66.84l30.69,2.72-19.58-41.98-29.58-2.62c-1.47-.13-2.52,1.38-1.9,2.71l17.24,36.98c.58,1.24,1.77,2.07,3.13,2.19Z";
+      var GRADIENT_STOPS = [
+        { o: "0%", c: "#4e469c" }, { o: "8%", c: "#307fbb" }, { o: "16%", c: "#00acce" },
+        { o: "25%", c: "#00b7bb" }, { o: "33%", c: "#09b38f" }, { o: "41%", c: "#19b26a" },
+        { o: "50%", c: "#7db056" }, { o: "58%", c: "#d18f43" }, { o: "66%", c: "#f15c3f" },
+        { o: "75%", c: "#da3659" }, { o: "83%", c: "#9b2a7c" }, { o: "91%", c: "#622d91" },
+        { o: "100%", c: "#4e469c" }
+      ];
+      var SIZES = { xs: 28, sm: 40, md: 56, lg: 80, xl: 120 };
+
+      function initLogo(el) {
+        var raw = el.getAttribute('data-size') || 'md';
+        var pxSize = /^\d+(\.\d+)?$/.test(raw) ? parseFloat(raw) : (SIZES[raw] || SIZES.md);
+        var mode = el.getAttribute('data-mode') || 'dark';
+        var variant = el.getAttribute('data-variant') || 'default';
+        var speed = parseFloat(el.getAttribute('data-speed') || '7');
+        var glow = parseFloat(el.getAttribute('data-glow') || '0.35');
+        var paused = el.getAttribute('data-paused') === 'true';
+        var isDark = mode === 'dark';
+        var isPathfinder = variant === 'pathfinder';
+
+        var uid = 'ap-' + Math.random().toString(36).slice(2, 8);
+        var cId = uid + '-c';
+        var gId = uid + '-g';
+
+        el.style.width = pxSize + 'px';
+        el.style.height = pxSize + 'px';
+
+        var glowFill = isPathfinder
+          ? 'radial-gradient(circle,rgba(45,27,78,0.97) 30%,rgba(35,20,62,0.99) 100%)'
+          : isDark
+            ? 'radial-gradient(circle,rgba(30,20,52,0.97) 30%,rgba(18,12,35,0.99) 100%)'
+            : 'radial-gradient(circle,rgba(255,255,255,0.98) 30%,rgba(240,240,245,1) 100%)';
+
+        var stopsHtml = GRADIENT_STOPS.map(function (s) {
+          return '<stop offset="' + s.o + '" stop-color="' + s.c + '"/>';
+        }).join('');
+
+        el.innerHTML =
+          '<div class="ap-logo-glow" style="background:' + glowFill + '"></div>' +
+          '<svg class="ap-logo-svg" viewBox="0 0 163.92 163.92" width="' + (pxSize * 0.68) + '" height="' + (pxSize * 0.68) + '" aria-hidden="true">' +
+            '<defs>' +
+              '<clipPath id="' + cId + '"><path d="' + PINWHEEL_PATH + '"/></clipPath>' +
+              '<linearGradient id="' + gId + '" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="163.92" y2="163.92" gradientTransform="rotate(0,81.96,81.96)">' + stopsHtml + '</linearGradient>' +
+            '</defs>' +
+            '<rect width="163.92" height="163.92" fill="url(#' + gId + ')" clip-path="url(#' + cId + ')"/>' +
+          '</svg>';
+
+        var grad = el.querySelector('linearGradient');
+        var glowEl = el.querySelector('.ap-logo-glow');
+
+        function computeShadow(rot) {
+          var h = rot % 360;
+          var a = glow * ((isDark || isPathfinder) ? 0.6 : 0.35);
+          var gp = Math.max(4, pxSize * 0.25);
+          var sp = Math.max(2, pxSize * 0.06);
+          if (isDark || isPathfinder) {
+            return '0 0 ' + (gp * 1.2) + 'px hsla(' + h + ',70%,55%,' + a + '),' +
+                   '0 0 ' + (gp * 2.5) + 'px hsla(' + h + ',60%,45%,' + (a * 0.5) + '),' +
+                   '0 ' + sp + 'px ' + (sp * 3) + 'px rgba(0,0,0,0.5),' +
+                   'inset 0 1px 0 rgba(255,255,255,0.06)';
+          }
+          return '0 0 ' + gp + 'px hsla(' + h + ',65%,55%,' + a + '),' +
+                 '0 0 ' + (gp * 2) + 'px hsla(' + h + ',55%,60%,' + (a * 0.4) + '),' +
+                 '0 ' + sp + 'px ' + (sp * 2.5) + 'px rgba(0,0,0,0.10),' +
+                 'inset 0 1px 0 rgba(255,255,255,0.7)';
+        }
+
+        glowEl.style.boxShadow = computeShadow(0);
+
+        if (paused) return;
+
+        var start = null;
+        function tick(ts) {
+          if (start === null) start = ts;
+          var rot = ((ts - start) / (speed * 1000)) * 360 % 360;
+          grad.setAttribute('gradientTransform', 'rotate(' + rot + ',81.96,81.96)');
+          glowEl.style.boxShadow = computeShadow(rot);
+          requestAnimationFrame(tick);
+        }
+        requestAnimationFrame(tick);
+      }
+
+      // Init logos
+      var logos = document.querySelectorAll('.ap-logo');
+      for (var i = 0; i < logos.length; i++) initLogo(logos[i]);
+
+      // Tab switching
+      var btns = document.querySelectorAll('.tab-btn');
+      var panels = document.querySelectorAll('.tab-panel');
+      btns.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var tab = btn.getAttribute('data-tab');
+          btns.forEach(function (b) {
+            var active = b === btn;
+            b.classList.toggle('active', active);
+            b.setAttribute('aria-selected', active ? 'true' : 'false');
+          });
+          panels.forEach(function (p) {
+            p.classList.toggle('active', p.getAttribute('data-panel') === tab);
+          });
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
